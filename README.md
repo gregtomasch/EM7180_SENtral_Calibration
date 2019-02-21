@@ -1,2 +1,2 @@
-# EM7180_SENtral_Calibration
-Get the best accuracy out of the Tlera USFS AHRS solution through good calibration
+# EM7180 USFS Sensor Calibration Utilities
+Tlera Corporation offers a popular set of attitude and heading reference system (AHRS) boards known as the "Ultimate Sensor Fusion Solution" or USFS.
