@@ -90,10 +90,15 @@ Alignment of the USFS during the six individual accelerometer calibrations is ty
 Be sure to cover the jaws of the metal clamps with insulating material (such as one or more layers of heat-shrink tubing) to keep from shorting out any circuitry on the microcontroller/USFS boards. Caution should be exercised to avoid mechanically damaging any components on either of the circuit boards. Now that we have a means of safely holding the USFS in any desired orientation, the remainder of the accelerometer calibration is straightforward:
 
 * Start with the X-axis in the +1g condition
-    - Orient the USFS so that the X-axis accelerometer reads its maximum *positive* value and the Y-axis and Z-axis accelerometers read <+/-30mg
+    - Orient the USFS so that the X-axis accelerometer reads its maximum *positive* value and the orthogonal (Y-axis and Z-axis) accelerometers read <+/-30mg
     - Send a "1" over the Arduino serial interface
     - It will only take a few seconds for the microcontroller to collect, average and store the data to the EEPROM
 * Re-orient the USFS so that the X-axis accelerometer reads its maximum *negative* value and the Y-axis and Z-axis accelerometers read <+/-30mg
-    - Send a "1" over the Arduino serial interface and wait for the data to be saved to the EEPROM
+    - Send a "1" over the Arduino serial interface and wait for the data to be collected and saved to the EEPROM
     - This completes calibration data collection for the X-axis accelerometer
 * Repeat this procedure for Y-axis +1g, Y-axis -1g, Z-axis +1g and Z-axis -1g to complete acceleromter calibration for the Y and Z axes. Remember to maintain the readings on the two orthogonal axes to be <+/-30mg
+* Next, **power-cycle** the microcontroller/USFS for the new calibration to take effect and open the Arduino serial monitor. You should now see six new accelerometer calibration values in the startup screen
+* When the main loop starts running, you should see that the accelerometers now read within a few mg of "+/-1000" when aligned to gravity
+* If one or more of the axes does not meet your accuracy expectations, simply repeat the calibration procedure for that axis and re-check the results...
+
+### Magnetometer Calibration
