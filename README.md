@@ -77,3 +77,13 @@ Once Sentral Startup is complete, the main loop will start running and sensor/AH
 * The USFS can now be used for accurate attitude estimation...
 
 ### Accelerometer Calibration
+Once proper operation of the USFS has been verified, typically it is a good time to calibrate the accelerometers. To avoid confusion, let's state up front that the "Sentral Accel Cal" function (as seen in the previous screen captures) will be executed a total if six times to constitute a valid accelerometer calibration. The accelerometer calibration routine if written specifically to:
+1. Automatically determine which axis (X, Y, or Z) and which gravity alignment condition (parallel or anti-parallel) is being calibrated
+2. Collect and average 512 raw acceleration readings for the axis being calibrated
+3. Test that the absolute value of the new averaged calibration reading is within +/-~10% of 1g
+4. Only save the one new calibration reading to the EEPROM and only if it is valid
+Alignment of the USFS during the six individual accelerometer calibrations is often accomplished using a "Third hand" flexible universal fixture as shown below:
+
+![alt text](https://user-images.githubusercontent.com/5760946/53273843-03f15a80-36aa-11e9-8e59-3b234b5314ba.png)
+
+Be sure to cover the jaws of the metal clamps with insulating material (such as one or more layers of heat-shrink tubing) to keep from shorting out the circuitry on the microcontroller/USFS boards.
