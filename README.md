@@ -44,4 +44,5 @@ There are both Invensense and ST specific USFS examples for each type of microco
 * Warm start parameters and accelerometer calibration data are stored in the I2C EEPROM on the USFS board. They are read at startup and checked for validity; if valid, the data is loaded into the Sentral and the calibration corrections are applied
 
 ## Calibration Instructions
-* Select the appropriate sketch for your microcontroller development board (STM432L4)
+* Select the appropriate sketch for your microcontroller development board (STM432L4 or Teensy 3.x) and USFS board (Invensense or ST sensors)
+** Follow the specific hardware interconnection instructions 
