@@ -1,7 +1,7 @@
 # EM7180 USFS Sensor Calibration Utilities
 
 ## Introduction
-Tlera Corporation offers a popular set of attitude and heading reference system (AHRS) boards known as the "Ultimate Sensor Fusion Solution" or USFS. The heart of the USFS is [EMMicroelectronic's EM7180](https://www.emmicroelectronic.com/product/sensor-fusion/em7180-sentral) sensor fusion coprocessor, which uses PNICorp's [“SpacePoint<sup>TM</sup>”](https://www.pnicorp.com/mm-module/) adaptive fusion algorithm. With proper sensor calibration, the USFS can readily provide heading accuracy of [~2deg RMS or better](https://github.com/kriswiner/EM7180_SENtral_sensor_hub/wiki/K.-Limits-of-Absolute-Heading-Accuracy-Using-Inexpensive-MEMS-Sensors). The [original USFS ](https://www.tindie.com/products/onehorse/ultimate-sensor-fusion-solution-mpu9250/) is based upon the EM7180, TDK/Invensense's popular [MPU9250](https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/) 9DOF accel/gyro/magnetometer chip and Bosch's [BMP280](https://www.bosch-sensortec.com/bst/products/all_products/bmp280) pressure transducer.
+Tlera Corporation offers a popular set of attitude and heading reference system (AHRS) boards known as the "Ultimate Sensor Fusion Solution" or USFS. The heart of the USFS is [EMMicroelectronic's EM7180](https://www.emmicroelectronic.com/product/sensor-fusion/em7180-sentral) sensor fusion coprocessor, which uses PNICorp's [“SpacePoint<sup>TM</sup>”](https://www.pnicorp.com/mm-module/) adaptive fusion algorithm. With proper sensor calibration, the USFS can readily provide heading accuracy of [~2deg RMS or better](https://github.com/kriswiner/EM7180_SENtral_sensor_hub/wiki/K.-Limits-of-Absolute-Heading-Accuracy-Using-Inexpensive-MEMS-Sensors). The [original USFS ](https://www.tindie.com/products/onehorse/ultimate-sensor-fusion-solution-mpu9250/) is based upon the EM7180, TDK/Invensense's popular [MPU9250](https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/) 9DOF accel/gyro/magnetometer chip and Bosch's [BMP280](https://www.bosch-sensortec.com/bst/products/all_products/bmp280) barometric pressure sensor.
 
 ![alt text](https://user-images.githubusercontent.com/5760946/53206889-0474ed00-35e7-11e9-8590-22fa937f65da.png)
 
@@ -27,21 +27,21 @@ It would be rather impractical to "teach" the SpacePoint algorithm (by rotating 
 ### Gyroscopes
 Gyroscope calibration is by far the simplest as it requires no effort on the part of the user. The Sentral does not attempt to correct for gyroscope scale errors but it does automatically correct zero-motion biases. The algorithm assesses when the USFS is not moving and uses the "At rest" data to predict and correct the individual gyroscope bias estimates Examination of the angular velocities reported while the USFS is at rest shows the bias auto-correction method works very well.
 
-## Software Overview
+## Software Feature Overview
 The code in this repository consists of Arduino USFS operation/calibration example sketches for two popular types of general purpose microcontrollers:
-* Tlera ["Dragonfly"](https://www.tindie.com/products/TleraCorp/dragonfly-stm32l47696-development-board/) and ["Butterfly"](https://www.tindie.com/products/TleraCorp/butterfly-stm32l433-development-board/) STM32L4 development boards
-* [Teensy 3.X](https://www.pjrc.com/teensy/) family of development boards
+* Tlera ["Dragonfly"](https://www.tindie.com/products/TleraCorp/dragonfly-stm32l47696-development-board/) and ["Butterfly"](https://www.tindie.com/products/TleraCorp/butterfly-stm32l433-development-board/) [Arduino-programmable](https://github.com/GrumpyOldPizza/arduino-STM32L4) STM32L4 development boards
+* [Teensy 3.X](https://www.pjrc.com/teensy/) family of [Arduino-programmable](https://www.pjrc.com/teensy/td_download.html) development boards
 
 There are both Invensense and ST specific USFS examples for each type of microcontroller. All of the sketches are intended to be as similar to each other as possible. Any differences are necessitated by feature differences of the sensors and microcontrollers. Important features include:
 * All communication with the USFS (including the on-board EEPROM) is accomplished by I2C bus. The I2C clock speed is typically 400kHz
 * The main loop is data-ready-interrupt driven; the interrupt is triggered when the highest output rate (gyroscope) data is ready. The Sentral's "Event status" register is polled when the interrupt is triggered to determine what other new data may be available
 * By default the Sentral reports *calibrated* sensor data. That also means that the individual sensor axes are reported conforming to the "North-East-Down" [(NED)](http://www.chrobotics.com/library/understanding-quaternions) sensor orientation convention. So for example, the "X"  axis accelerometer data reported by the Sentral may not be from the "X" axis data register of the accel/gyro chip, depending on how it is oriented on the USFS circuit board...
 * By default the sentral reports the AHRS estimate as NED unit quaternion coefficients. Euler angles (Yaw, Pitch and Roll) are calculated from the quaternion coefficients using [standard NED-based transformations](http://www.chrobotics.com/library/understanding-quaternions)
-* The barometric pressure sensor reports both temperature and pressure, largely for demonstration purposes
+* The barometric pressure sensor reports both the ambient temperature and barometric pressure, largely for demonstration purposes
 * The Sentral "Algorithm status" byte is reported to show when the SpacePoint algorithm has relaxed to "Stable calibration" during magnetometer calibration
 * Loop cycle time is reported in us and the serial monitor is updated at a default rate of 10Hz. The loop cycle time will fluctuate between ~3-5us (no data ready) and ~1300us (accel, gyro, mag, baro and quaternion data all ready)
 * Accelerometer calibration and warm start parameter save functions can be triggered at will over the USB serial monitor
 * Warm start parameters and accelerometer calibration data are stored in the I2C EEPROM on the USFS board. They are read at startup and checked for validity; if valid, the data is loaded into the Sentral and the calibration corrections are applied
 
 ## Calibration Instructions
-
+* Select the appropriate sketch for your microcontroller development board (STM432L4)
