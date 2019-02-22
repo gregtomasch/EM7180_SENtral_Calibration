@@ -44,6 +44,7 @@ There are both Invensense and ST specific USFS examples for each type of microco
 * Warm start parameters and accelerometer calibration data are stored in the I2C EEPROM on the USFS board. They are read at startup and checked for validity; if valid, the data is loaded into the Sentral and the calibration corrections are applied
 
 ## Software Operation and Calibration Instructions
+### Basic Operation and Screen Messaging
 * Select the appropriate sketch for your microcontroller development board (STM432L4 or Teensy 3.x) and USFS board (Invensense or ST sensors). **A word to the wise: Running an ST USFS with an Invensense sketch (or the other way around) WILL NOT WORK**. *Either the sketch will hang or the AHRS data will be nonsense*
 * Follow the hardware-specific interconnection instructions in the "Readme.md" file for the specific sketch you have chosen
 Build/upload the sketch from the [Arduino IDE](https://www.arduino.cc/en/main/software). Power-cycle the board and open the Arduino serial monitor (or any terminal emulator you prefer)
@@ -68,3 +69,11 @@ Once Sentral Startup is complete, the main loop will start running and sensor/AH
     - Ambient temperature in degrees Celsius (deg C)
     - Loop cycle time in microseconds (us). The loop cycle time will fluctuate significantly because it is dominated by I2C data transfer time for whatever new data is available at any given cycle of the loop...
 * The accelerometer data is also specifically highlighted in this screen capture as this data is crucial for the accelerometer calibration procedure. In this example, the Z-accelerometer is aligned parallel to gravity; az ~ 1000mg and ax, ay <+/-30mg. This orientation of the USFS would be satisfactory for collecting the "Z-acc max" accel cal data to be stored in the EEPROM...
+* Next, randomly rotate the USFS throughout 3-space while taking note of the "Algorithm status" byte:
+
+![alt text](https://user-images.githubusercontent.com/5760946/53261503-0c856900-3689-11e9-8f64-ae64f5c1c9af.png)
+
+* When this byte toggles from "0" (Indeterminate) to "8" (Calibration stable) the SpacePoint algorithm should be converged to a stable operating point
+* The USFS can now be used for accurate attitude estimation...
+
+### Accelerometer Calibration
