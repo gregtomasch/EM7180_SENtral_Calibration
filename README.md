@@ -34,4 +34,10 @@ The code in this repository consists of Arduino USFS operation/calibration examp
 
 There are both Invensense and ST specific USFS examples for each type of microcontroller. All of the sketches are intended to be as similar to each other as possible. Any differences are necessitated by feature differences of the sensors and microcontrollers. Important features include:
 * The main loop is data-ready-interrupt driven; the interrupt is triggered when the highest rate (gyroscope) data is ready. The Sentral's event status register is polled when the interrupt is triggered to determine what other data may be available
-* The Sentral reports calibrated sensor data. That also means that the individual sensor axes are reported conforming to the "North-East-Down" [("NED")](http://www.chrobotics.com/library/understanding-quaternions) sensor orientation convention. So for example, the "X"  axis accelerometer data reported by the Sentral may not be from the "X" axis of the accel/gyro chip...
+* The Sentral reports calibrated sensor data. That also means that the individual sensor axes are reported conforming to the "North-East-Down" [("NED")](http://www.chrobotics.com/library/understanding-quaternions) sensor orientation convention. So for example, the "X"  axis accelerometer data reported by the Sentral may not be from the "X" axis of the accel/gyro chip, depending on how it is oriented on the USFS circuit board...
+* The sentral reports the AHRS solution as NED quaternion coefficients. Euler angles (Yaw, Pitch and Roll) are calculated from the quaternion coefficients using [standard NED-based transformations](http://www.chrobotics.com/library/understanding-quaternions)
+* The barometric pressure sensor reports both temperature and pressure, largely for demonstration purposes
+* The Sentral "Algorithm status" byte is reported to show when the SpacePoint has relaxed to "Stable clibration" during magnetometer calibration
+* Loop cycle time is reported in us and the serial monitor is updated at a default of 10Hz. The loop time will fluctuate between ~3-5us (no data ready) and ~1300us (accel, gyro, mag, baro and quaternion data all ready)
+* Accelerometer calibration and warm start parameter save can be triggered at will ofer the serial monitor
+
