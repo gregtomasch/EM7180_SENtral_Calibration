@@ -26,3 +26,10 @@ It would be rather impractical to "teach" the SpacePoint algorithm (by rotating 
 
 ### Gyroscopes
 Gyroscope calibration is by far the simplest as it requires no effort on the part of the user. The Sentral does not attempt to correct for gyroscope scale errors but it does automatically correct zero-motion biases. The algorithm assesses when the USFS is not moving and uses the "At rest" data to predict and correct the individual gyroscope bias estimates Examination of the angular velocities reported while the USFS is at rest shows the bias auto-correction method works very well.
+
+## Software Overview
+The code in this repository consists of Arduino C++ sketches for two popular types of general purpose microcontrollers:
+* Tlera ["Dragonfly"](https://www.tindie.com/products/TleraCorp/dragonfly-stm32l47696-development-board/) and ["Butterfly"](https://www.tindie.com/products/TleraCorp/butterfly-stm32l433-development-board/) development boards
+* [Teensy 3.X](https://www.pjrc.com/teensy/) family of development boards
+
+There are both Invensense and ST specific USFS calibration utilities for each type of microcontroller.
