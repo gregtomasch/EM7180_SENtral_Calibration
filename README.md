@@ -39,5 +39,8 @@ There are both Invensense and ST specific USFS examples for each type of microco
 * The barometric pressure sensor reports both temperature and pressure, largely for demonstration purposes
 * The Sentral "Algorithm status" byte is reported to show when the SpacePoint has relaxed to "Stable clibration" during magnetometer calibration
 * Loop cycle time is reported in us and the serial monitor is updated at a default of 10Hz. The loop time will fluctuate between ~3-5us (no data ready) and ~1300us (accel, gyro, mag, baro and quaternion data all ready)
-* Accelerometer calibration and warm start parameter save can be triggered at will ofer the serial monitor
+* Accelerometer calibration and warm start parameter save can be triggered at will over the serial monitor
+* Warm start parameters and accelerometer calibration data are stored in the I2C EEPROM on the USFS board. They are read at startup and checked for validity. If valid, the data is loaded into the Sentral and the calibration corrections are applied
+
+## Calibration Instructions
 
