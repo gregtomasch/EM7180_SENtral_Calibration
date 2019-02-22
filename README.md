@@ -47,5 +47,9 @@ There are both Invensense and ST specific USFS examples for each type of microco
 * Select the appropriate sketch for your microcontroller development board (STM432L4 or Teensy 3.x) and USFS board (Invensense or ST sensors). **A word to the wise: Running an ST USFS with an Invensense sketch (or the other way around) WILL NOT WORK**. *Either the sketch will hang or the AHRS data will be nonsense*
 * Follow the hardware-specific interconnection instructions in the "Readme.md" file for the specific sketch you have chosen
 Build/upload the sketch from the [Arduino IDE](https://www.arduino.cc/en/main/software). Power-cycle the board and open the Arduino serial monitor (or any terminal emulator you prefer)
-* You should see a similar startup sequence:
+* You should see a similar startup sequence on the Arduino serial monitor:
+
 ![alt text](https://user-images.githubusercontent.com/5760946/53260187-bfec5e80-3685-11e9-80a2-7922921492f4.png)
+
+* The accelerometer calibration data are displayed as part of the Sentral startup procedure. The data are in ADC counts where 1g = 2048. If all three accelerometers were perfect, maxima and minima would all be +/- 2048, respectively. If any of the data vary more than +/-~10% from their target values, the entire calibration is judged as invalid and is not loaded into the Sentral.
+* When the Warm Start parameters are retreived from the EEPROM, the final byte of the sequence is a "Validation byte" that is erased immediately before Warm Start data is written to the EEPROM and is re-written once Warm Start data is successfully saved. This byte is checked at startup; if the value is correct, the Warm Start parameter data is loaded into the Sentral. Otherwise it is not...
