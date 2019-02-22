@@ -32,6 +32,6 @@ The code in this repository consists of Arduino USFS operation/calibration examp
 * Tlera ["Dragonfly"](https://www.tindie.com/products/TleraCorp/dragonfly-stm32l47696-development-board/) and ["Butterfly"](https://www.tindie.com/products/TleraCorp/butterfly-stm32l433-development-board/) development boards
 * [Teensy 3.X](https://www.pjrc.com/teensy/) family of development boards
 
-There are both Invensense and ST specific USFS examples for each type of microcontroller. They are intended to be as similar to each other as possible. Any differences are necessitated by feature differences of the sensors and microcontrollers. Important features include:
+There are both Invensense and ST specific USFS examples for each type of microcontroller. All of the sketches are intended to be as similar to each other as possible. Any differences are necessitated by feature differences of the sensors and microcontrollers. Important features include:
 * The main loop is data-ready-interrupt driven; the interrupt is triggered when the highest rate (gyroscope) data is ready. The Sentral's event status register is polled when the interrupt is triggered to determine what other data may be available
-* The Sentral reports "Calibrated" sensor data.
+* The Sentral reports calibrated sensor data. That also means that the individual sensor axes are reported conforming to the "North-East-Down" [("NED")](http://www.chrobotics.com/library/understanding-quaternions) sensor orientation convention. So for example, the "X"  axis accelerometer data reported by the Sentral may not be from the "X" axis of the accel/gyro chip...
