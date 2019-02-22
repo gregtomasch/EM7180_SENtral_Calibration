@@ -82,8 +82,18 @@ Once proper operation of the USFS has been verified, typically it is a good time
 2. Collect and average 512 raw acceleration readings for the axis being calibrated
 3. Test that the absolute value of the new averaged calibration reading is within +/-~10% of 1g
 4. Only save the one new calibration reading to the EEPROM and only if it is valid
-Alignment of the USFS during the six individual accelerometer calibrations is often accomplished using a "Third hand" flexible universal fixture as shown below:
+
+Alignment of the USFS during the six individual accelerometer calibrations is typically accomplished using a "Third hand" flexible universal holding fixture as shown below:
 
 ![alt text](https://user-images.githubusercontent.com/5760946/53273843-03f15a80-36aa-11e9-8e59-3b234b5314ba.png)
 
-Be sure to cover the jaws of the metal clamps with insulating material (such as one or more layers of heat-shrink tubing) to keep from shorting out the circuitry on the microcontroller/USFS boards.
+Be sure to cover the jaws of the metal clamps with insulating material (such as one or more layers of heat-shrink tubing) to keep from shorting out any circuitry on the microcontroller/USFS boards. Now that we have a means of safely holding the USFS in any desired orientation, the remainder of the accelerometer calibration is straightforward:
+
+* Start with the X-axis in the +1g condition
+    - Orient the USFS so that the X-axis accelerometer reads its maximum *positive* value and the Y-axis and Z-axis accelerometers read <+/-30mg
+    - Send a "1" over the Arduino serial interface
+    - It will only take a few seconds for the microcontroller to collect, average and store the data to the EEPROM
+* Re-orient the USFS so that the X-axis accelerometer reads its maximum *negative* value and the Y-axis and Z-axis accelerometers read <+/-30mg
+    - Send a "1" over the Arduino serial interface and wait for the data to be saved to the EEPROM
+    - This completes calibration data collection for the X-axis accelerometer
+* Repeat this procedure for Y-axis +1g, Y-axis -1g, Z-axis +1g and Z-axis -1g to complete acceleromter calibration for the Y and Z axes. Remember to maintain the readings on the two orthogonal axes to be <+/-30mg
