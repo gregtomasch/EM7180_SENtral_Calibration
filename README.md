@@ -29,18 +29,19 @@ Gyroscope calibration is by far the simplest as it requires no effort on the par
 
 ## Software Overview
 The code in this repository consists of Arduino USFS operation/calibration example sketches for two popular types of general purpose microcontrollers:
-* Tlera ["Dragonfly"](https://www.tindie.com/products/TleraCorp/dragonfly-stm32l47696-development-board/) and ["Butterfly"](https://www.tindie.com/products/TleraCorp/butterfly-stm32l433-development-board/) development boards
+* Tlera ["Dragonfly"](https://www.tindie.com/products/TleraCorp/dragonfly-stm32l47696-development-board/) and ["Butterfly"](https://www.tindie.com/products/TleraCorp/butterfly-stm32l433-development-board/) STM32L4 development boards
 * [Teensy 3.X](https://www.pjrc.com/teensy/) family of development boards
 
 There are both Invensense and ST specific USFS examples for each type of microcontroller. All of the sketches are intended to be as similar to each other as possible. Any differences are necessitated by feature differences of the sensors and microcontrollers. Important features include:
-* The main loop is data-ready-interrupt driven; the interrupt is triggered when the highest rate (gyroscope) data is ready. The Sentral's event status register is polled when the interrupt is triggered to determine what other new data may be available
-* The Sentral reports *calibrated* sensor data. That also means that the individual sensor axes are reported conforming to the "North-East-Down" [(NED)](http://www.chrobotics.com/library/understanding-quaternions) sensor orientation convention. So for example, the "X"  axis accelerometer data reported by the Sentral may not be from the "X" axis of the accel/gyro chip, depending on how it is oriented on the USFS circuit board...
-* The sentral reports the AHRS solution as NED quaternion coefficients. Euler angles (Yaw, Pitch and Roll) are calculated from the quaternion coefficients using [standard NED-based transformations](http://www.chrobotics.com/library/understanding-quaternions)
+* All communication with the USFS (including the on-board EEPROM) is accomplished by I2C bus. The I2C clock speed is typically 400kHz
+* The main loop is data-ready-interrupt driven; the interrupt is triggered when the highest output rate (gyroscope) data is ready. The Sentral's "Event status" register is polled when the interrupt is triggered to determine what other new data may be available
+* By default the Sentral reports *calibrated* sensor data. That also means that the individual sensor axes are reported conforming to the "North-East-Down" [(NED)](http://www.chrobotics.com/library/understanding-quaternions) sensor orientation convention. So for example, the "X"  axis accelerometer data reported by the Sentral may not be from the "X" axis data register of the accel/gyro chip, depending on how it is oriented on the USFS circuit board...
+* By default the sentral reports the AHRS estimate as NED unit quaternion coefficients. Euler angles (Yaw, Pitch and Roll) are calculated from the quaternion coefficients using [standard NED-based transformations](http://www.chrobotics.com/library/understanding-quaternions)
 * The barometric pressure sensor reports both temperature and pressure, largely for demonstration purposes
-* The Sentral "Algorithm status" byte is reported to show when the SpacePoint has relaxed to "Stable calibration" during magnetometer calibration
-* Loop cycle time is reported in us and the serial monitor is updated at a default of 10Hz. The loop time will fluctuate between ~3-5us (no data ready) and ~1300us (accel, gyro, mag, baro and quaternion data all ready)
-* Accelerometer calibration and warm start parameter save can be triggered at will over the serial monitor
-* Warm start parameters and accelerometer calibration data are stored in the I2C EEPROM on the USFS board. They are read at startup and checked for validity. If valid, the data is loaded into the Sentral and the calibration corrections are applied
+* The Sentral "Algorithm status" byte is reported to show when the SpacePoint algorithm has relaxed to "Stable calibration" during magnetometer calibration
+* Loop cycle time is reported in us and the serial monitor is updated at a default rate of 10Hz. The loop cycle time will fluctuate between ~3-5us (no data ready) and ~1300us (accel, gyro, mag, baro and quaternion data all ready)
+* Accelerometer calibration and warm start parameter save functions can be triggered at will over the USB serial monitor
+* Warm start parameters and accelerometer calibration data are stored in the I2C EEPROM on the USFS board. They are read at startup and checked for validity; if valid, the data is loaded into the Sentral and the calibration corrections are applied
 
 ## Calibration Instructions
 
