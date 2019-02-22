@@ -57,4 +57,14 @@ Once Sentral Startup is complete, the main loop will start running and sensor/AH
 
 ![alt text](https://user-images.githubusercontent.com/5760946/53261426-d8aa4380-3688-11e9-96fa-e353c9dec2d8.png)
 
-* In this serial monitor screen capture, the "Algoritm Status" vale is highlighted. It will initially assume a value of "0" when the USFS first starts up and has not experienced any significant motion
+* In this serial monitor screen capture, the "Algoritm Status" field is highlighted. It will initially assume a value of "0" when the USFS first starts up and has not experienced any significant motion
+* The balance of the update screen includes:
+    - X, Y, and Z accelerometer data in milli-g's (mg)
+    - X, Y, and Z gyroscope data in degrees per second (deg/s)
+    - X, Y, and Z magnetometer data in micro-Teslas (uT)
+    - Unit quaternion coefficients (dimensionless)
+    - Euler angles (Yaw, Pitch and Roll) in degrees
+    - Barometric pressure in milli-bars (mbar)
+    - Ambient temperature in degrees Celsius (deg C)
+    - Loop cycle time in microseconds (us). The loop cycle time will fluctuate significantly because it is dominated by I2C data transfer time for whatever new data is available at any given cycle of the loop...
+* The accelerometer data is also specifically highlighted in this screen capture as this data is crucial for the accelerometer calibration procedure. In this example, the Z-accelerometer is aligned parallel to gravity; az ~ 1000mg and ax, ay < +/-30mg. This orientation of the USFS would be satisfactory for collecting the "Z-acc max" accel cal data to be stored in the EEPROM...
