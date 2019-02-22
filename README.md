@@ -43,13 +43,18 @@ There are both Invensense and ST specific USFS examples for each type of microco
 * Accelerometer calibration and warm start parameter save functions can be triggered at will over the USB serial monitor
 * Warm start parameters and accelerometer calibration data are stored in the I2C EEPROM on the USFS board. They are read at startup and checked for validity; if valid, the data is loaded into the Sentral and the calibration corrections are applied
 
-## Calibration Instructions
+## Software Operation and Calibration Instructions
 * Select the appropriate sketch for your microcontroller development board (STM432L4 or Teensy 3.x) and USFS board (Invensense or ST sensors). **A word to the wise: Running an ST USFS with an Invensense sketch (or the other way around) WILL NOT WORK**. *Either the sketch will hang or the AHRS data will be nonsense*
 * Follow the hardware-specific interconnection instructions in the "Readme.md" file for the specific sketch you have chosen
 Build/upload the sketch from the [Arduino IDE](https://www.arduino.cc/en/main/software). Power-cycle the board and open the Arduino serial monitor (or any terminal emulator you prefer)
-* You should see a similar startup sequence on the Arduino serial monitor:
+* You should see a startup sequence on the Arduino serial monitor similar to fht following screen capture:
 
 ![alt text](https://user-images.githubusercontent.com/5760946/53260187-bfec5e80-3685-11e9-80a2-7922921492f4.png)
 
 * The accelerometer calibration data are displayed as part of the Sentral startup procedure. The data are in ADC counts where 1g = 2048. If all three accelerometers were perfect, maxima and minima would all be +/- 2048, respectively. If any of the data vary more than +/-~10% from their target values, the entire calibration is judged as invalid and is not loaded into the Sentral.
-* When the Warm Start parameters are retreived from the EEPROM, the final byte of the sequence is a "Validation byte" that is erased immediately before Warm Start data is written to the EEPROM and is re-written once Warm Start data is successfully saved. This byte is checked at startup; if the value is correct, the Warm Start parameter data is loaded into the Sentral. Otherwise it is not...
+* When the Warm Start parameters are retreived from the EEPROM, the final byte of the sequence is a "Validation byte". This byte is erased immediately before Warm Start data is written to the EEPROM and is re-written once Warm Start data is successfully saved. This byte is checked at startup; if the value is correct, the Warm Start parameter data is loaded into the Sentral. Otherwise Warm start parameters are not loaded into the Sentral and will be reflected in the startup screen messaging
+Once Sentral Startup is complete, the main loop will start running and sensor/AHRS data will stream across the Arduino serial monitor as shown in the following screen capture:
+
+![alt text](https://user-images.githubusercontent.com/5760946/53261426-d8aa4380-3688-11e9-96fa-e353c9dec2d8.png)
+
+* In this serial monitor screen capture, the "Algoritm Status" vale is highlighted. It will initially assume a value of "0" when the USFS first starts up and has not experienced any significant motion
