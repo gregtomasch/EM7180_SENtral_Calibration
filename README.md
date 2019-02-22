@@ -93,7 +93,7 @@ Be sure to cover the jaws of the metal clamps with insulating material (such as 
     - Orient the USFS so that the X-axis accelerometer reads its maximum *positive* value and the orthogonal (Y-axis and Z-axis) accelerometers read <+/-30mg
     - Send a "1" over the Arduino serial interface
     - It will only take a few seconds for the microcontroller to collect, average and store the data to the EEPROM
-* Re-orient the USFS so that the X-axis accelerometer reads its maximum *negative* value and the Y-axis and Z-axis accelerometers read <+/-30mg
+* Re-orient the USFS so that the X-axis accelerometer reads its maximum *negative* value and the orthogonal accelerometers read <+/-30mg
     - Send a "1" over the Arduino serial interface and wait for the data to be collected and saved to the EEPROM
     - This completes calibration data collection for the X-axis accelerometer
 * Repeat this procedure for Y-axis +1g, Y-axis -1g, Z-axis +1g and Z-axis -1g to complete acceleromter calibration for the Y and Z axes. Remember to maintain the readings on the two orthogonal axes to be <+/-30mg
