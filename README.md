@@ -74,7 +74,7 @@ Once Sentral Startup is complete, the main loop will start running and sensor/AH
 ![alt text](https://user-images.githubusercontent.com/5760946/53261503-0c856900-3689-11e9-8f64-ae64f5c1c9af.png)
 
 * When this byte toggles from "0" (Indeterminate) to "8" (Calibration stable) the SpacePoint algorithm should be converged to a stable operating point
-* The USFS can now be used for accurate attitude estimation...
+* Assuming the accelerometers and magnetometers have already been calibrated, the USFS can now be used for accurate attitude estimation. If not, proceed to the next section...
 
 ### Accelerometer Calibration
 Once proper operation of the USFS has been verified, typically it is a good time to calibrate the accelerometers. To avoid confusion, let's state up front that the "Sentral Accel Cal" function will be executed a total of **six times** from the Arduino serial interface to collect all the data for a valid accelerometer calibration. The accelerometer calibration function is written specifically to:
@@ -116,3 +116,17 @@ Once the accelerometers have been calibrated and you have verified that the USFS
 * When the SpacePoint algorithm is in the process of final adjustment, the indicated heading can slowly evolve even though the USFS is stationary. Hold the USFS level, right side up and at a stable heading. Observe the heading ("Yaw") value for a minute or so. If it is stable, the magnetometer is complete. If the heading is slowly drifting, allow it to relax until it becomes stable
 * Now, simply send a "2" over the Arduino serial monitor. The Warm Start parameters will be polled from EM7180 and stored in the EEPROM
 * After power cycling, the USFS should behave as it did immediately after the calibration process was completed
+
+## Software Adjustable Features: "config.h" Overview
+
+The sketches in this repository have a certain degree of feature adjustability that is set by parameter definitions in the "config.h" header file. In general, these parameter definitions should only be adjusted with care. This section will describe the adjustable performance features and offer some guidance for their adjustment.
+
+### I2C Bus and Basic Pin Assignments
+* SENSOR_0_WIRE_INSTANCE: This definition specifies which of the microcontroller's available I2C busses will be used for the USFS. For the STM32L4 development boards, there are several possibilities. For the Teensy 3.X only the primary I2C bus is listed and there are supplementary definitions for the pin choices
+* LED_PIN: Defines the GPIO pin for the on-board indicator LED. Refer to your microcontroller documentation for any alternative choices
+* INT_PIN: Specifies the Sentral data-ready-interrupt GPIO pin. Any GPIO capable of supporting an external interrupt can be used
+* UPDATE_PERIOD: Defines the serial monitor update period in milliseconds. The default is 100ms or 10Hz
+
+### Sensor Output Data Rates (ODR's)
+There is a "pick list" of supported options for each ODR category. UNCOMMENT ONE OPTION PER LIST ONLY. The specifics of each pick list reflects the supported ODR's for the 
+* ACC_ODR: There is a pick list of options for this parame
