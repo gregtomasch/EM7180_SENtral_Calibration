@@ -113,5 +113,6 @@ Once the accelerometers have been calibrated and you have verified that the USFS
 * Monitor the the "Algorithm Status" field. It should initially be "0", which means the SpacePoint algorithm has insufficient data to determine the quality/stability of its current state
 * Rotate the USFS throughout 3-space as described above. You should see the "Algorithm Status" field toggle to "8". This means the SpacePoint algorithm has acheived "Stable calibration"
 * As an itnitial check, hold the USFS level and right side up. Note the value of Z magnetometer (mz). Now hold the USFS level and upside down. The value of mz should be within a few uT of the right side up value and of opposite sign. If this is not true, continue randomly rotating the USFS in 3D until you see the best agreement of |mz| in the right side up and upside down conditions
-* Next, hold the USFS level and right side up and at a stable heading. Observe
-* 
+* When the SpacePoint algorithm is in the process of final adjustment, the indicated heading can slowly evolve even though the USFS is stationary. Hold the USFS level, right side up and at a stable heading. Observe the heading ("Yaw") value for a minute or so. If it is stable, the magnetometer is complete. If the heading is slowly drifting, allow it to relax until it becomes stable
+* Now, simply send a "2" over the Arduino serial monitor. The Warm Start parameters will be polled from EM7180 and stored in the EEPROM
+* After power cycling, the USFS should behave as it did immediately after the calibration process was completed
