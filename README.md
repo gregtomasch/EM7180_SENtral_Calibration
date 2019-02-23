@@ -128,5 +128,17 @@ The sketches in this repository have a certain degree of feature adjustability t
 * UPDATE_PERIOD: Defines the serial monitor update period in milliseconds. The default is 100ms or 10Hz
 
 ### Sensor Output Data Rates (ODR's)
-There is a "pick list" of supported options for each ODR category. UNCOMMENT ONE OPTION PER LIST ONLY. The specifics of each pick list reflects the supported ODR's for the 
-* ACC_ODR: There is a pick list of options for this parame
+There is a "pick list" of supported options for each ODR category. UNCOMMENT ONE OPTION PER LIST ONLY. The specific entries in each pick list reflect the supported ODR's for the individual sensors.
+* ACC_ODR and GYRO_ODR: Usually the accel and gyro ODR's are matched and are the fastest. 800-1000Hz is typical. The ST accel/gyro will go up to 1660Hz but this ODR causes the SpacePoint algorithm to struggle with maintaining "Stable calibration"...
+* MAG_ODR: Typically 100Hz; this works quite well for general purposes
+* BARO_ODR: 25-50Hz is typical
+* QUAT_DIV: This is the Sentral "Quaternion divisor" factor. The quaternion ODR is simply (Gyro ODR)/(QUAT_DIV + 1). The Sentral can deliver quaternion ODR's ah high as 400Hz. However, a quaternion ODR of ~100Hz is typical
+
+### Sensor Scales
+There is a "pick list" of supported options for each sensor scale category. UNCOMMENT ONE OPTION PER LIST ONLY. The specific entries in each pick list reflect the supported ranges for the individual sensors.
+* ACC_SCALE: +/-2g - +/-16. +/-8g is typical. +/-16g is appropriate for UAV's
+* GYRO_SCALE: For Invensense sensorsthe range is +/-250 - +/-2000DPS while for ST sensors the range is +/-125 - +/-2000DPS. +/-2000DPS is typical and is also appropriate for UAV's
+* MAG_SCALE: The magnetometer scales are not variable but differ between the two sensor sets. For Invensense it is +/-1000uT while for ST it is +/-4915uT
+
+### Low-Pass Filter Settings
+
