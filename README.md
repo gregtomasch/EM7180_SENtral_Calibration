@@ -113,8 +113,8 @@ Once the accelerometers have been calibrated and you have verified that the USFS
 * Monitor the "Algorithm Status" field. It should initially be "0", which means the SpacePoint algorithm has insufficient data to determine the quality/stability of its current state
 * Rotate the USFS throughout 3-space as described above. You should see the "Algorithm Status" field toggle to "8". This means the SpacePoint algorithm has achieved "Stable calibration"
 * As an initial check, hold the USFS level and right side up. Note the value of Z magnetometer (mz). Now hold the USFS level and upside down. The value of mz should be within a few uT of the right side up value and of opposite sign. If this is not true, continue randomly rotating the USFS in 3D until you see the best agreement of |mz| in the right side up and upside-down conditions
-* When the SpacePoint algorithm is in the process of final adjustment, the indicated heading can slowly evolve even though the USFS is stationary. Hold the USFS level, right side up and at a stable heading. Observe the heading ("Yaw") value for a minute or so. If it is stable, the magnetometer is complete. If the heading is slowly drifting, allow it to relax until it becomes stable
-* Now, simply send a "2" over the Arduino serial monitor. The Warm Start parameters will be polled from EM7180 and stored in the EEPROM
+* When the SpacePoint algorithm is in the process of final adjustment, the indicated heading can slowly evolve even though the USFS is stationary. Hold the USFS level, right side up and at a stable heading. Observe the heading ("Yaw") value for a minute or so. If it is stable, magnetometer calibration is complete. If the heading is slowly drifting, allow it to relax until it becomes stable
+* Now, simply send a "2" over the Arduino serial monitor. The Warm Start parameters will be polled from EM7180 and stored in the EEPROM. During this process, serial data updates will stop briefly and then resume when the EEPROM write is complete
 * After power cycling, the USFS should behave as it did immediately after the calibration process was completed
 
 ## Software Adjustable Features: "config.h" Overview
@@ -128,10 +128,10 @@ The sketches in this repository have a certain degree of feature adjustability t
 * UPDATE_PERIOD: Defines the serial monitor update period in milliseconds. The default is 100ms or 10Hz
 
 ### Sensor Output Data Rates (ODR's)
-* ACC_ODR and GYRO_ODR: Usually the accel and gyro ODR's are matched and are the fastest. 800-1000Hz is typical. The ST accel/gyro will go up to 1660Hz but this ODR causes the SpacePoint algorithm to struggle with maintaining "Stable calibration"...
+* ACC_ODR and GYRO_ODR: Usually the accel and gyro ODR's are matched and are the fastest. 800-1000Hz is typical. The ST accel/gyro will go up to 1660Hz but this ODR causes the SpacePoint algorithm to struggle with maintaining "Stable Calibration"...
 * MAG_ODR: Typically 100Hz; this works quite well for general purposes
 * BARO_ODR: 25-50Hz is typical
-* QUAT_DIV: This is the Sentral "Quaternion divisor" factor. The quaternion ODR is simply (Gyro ODR)/(QUAT_DIV + 1). The Sentral can deliver quaternion ODR's ah high as 400Hz. However, a quaternion ODR of ~100Hz is typical
+* QUAT_DIV: This is the Sentral's "Quaternion divisor" factor. The quaternion ODR is simply (Gyro ODR)/(QUAT_DIV + 1). The Sentral can deliver quaternion ODR's ah high as 400Hz. However, a quaternion ODR of ~100Hz is typical
 
 ### Sensor Scales
 * ACC_SCALE: +/-2g - +/-16. +/-8g is typical. +/-16g is appropriate for UAV's
