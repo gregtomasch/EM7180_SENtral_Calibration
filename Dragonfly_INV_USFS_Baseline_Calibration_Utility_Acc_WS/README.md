@@ -1,5 +1,5 @@
 # STM32L4 and Invensense USFS
-Interconnection of The USFS to the STM32L4 is simple. The information given here is valid for both the ["Dragonfly"](https://www.tindie.com/products/TleraCorp/dragonfly-stm32l47696-development-board/) and ["Butterfly"](https://www.tindie.com/products/TleraCorp/butterfly-stm32l433-development-board/) STM32L4 development boards. For testing on a prototyping ["Breadboard"](https://cdn-shop.adafruit.com/1200x900/443-00.jpg) the interconnection matrix is:
+Interconnection of the USFS to the STM32L4 is simple. The information given here is valid for both the ["Dragonfly"](https://www.tindie.com/products/TleraCorp/dragonfly-stm32l47696-development-board/) and ["Butterfly"](https://www.tindie.com/products/TleraCorp/butterfly-stm32l433-development-board/) STM32L4 development boards. For testing on a prototyping ["Breadboard"](https://cdn-shop.adafruit.com/1200x900/443-00.jpg) the interconnection matrix is:
 
 ## Prototype Breadboard
 | USFS Pin |Dragonfly/Butterfly Pin|
