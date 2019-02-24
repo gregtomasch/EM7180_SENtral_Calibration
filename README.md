@@ -102,7 +102,7 @@ Be sure to cover the jaws of the metal clamps with insulating material (such as 
 * If one or more of the axes does not meet your accuracy expectations, simply repeat the calibration procedure for that axis and re-check the results...
 
 ### Magnetometer Calibration
-Sentral magnetometer calibration is actually quite simple but a few key points should be kept in mind:
+Sentral magnetometer calibration is quite simple but a few key points should be kept in mind:
 1. Accelerometer should be done first. It is best if the accelerometers have been calibrated and the board has been power-cycled (for the accelerometer calibration to take effect). Although accelerometer data may not be explicitly part the heading algorithm, they are used to assess the pitch and roll tilt conditions of the magnetometers. If the accelerometers have not been calibrated, the systematic errors can degrade the effective magnetometer tilt compensation potentially causing the practical heading accuracy to suffer
 2. Stray magnetic fields make a difference. Remember, the geomagnetic field strength is only about [25 - 65uT](https://en.wikipedia.org/wiki/Earth%27s_magnetic_field). Many modern electronic devices can generate stray fields that are significant with respect the earth's magnetic field. Being too close to running computers, video monitors, etc. can cause the SpacePoint algorithm to adapt in a way that degrades heading accuracy. Typically, one should be about 3-5 feet from any computers/monitors or other stray field generating devices to perform USFS magnetometer calibration
 3. Ferromagnetic materials in the immediate vicinity of the USFS make a difference. Having steel fasteners near the USFS will induce soft iron distortion into the magnetometer response characteristics. This is not the end of the world as the SpacePoint algorithm can correct for these effects. However, if possible, magnetometer calibration should be done with the USFS installed in the environment/vehicle where it will be operating. In cases where the USFS can't be freely rotated in 3-space while installed (i.e. the vehicle to which it is attached is too heavy to pick up and twirl around hy hand) care should be taken to limit *changes* in the ferromagnetic materials immediately surrounding the USFS after magnetometer calibration
@@ -110,7 +110,7 @@ Sentral magnetometer calibration is actually quite simple but a few key points s
 
 Once the accelerometers have been calibrated and you have verified that the USFS's immediate environment is suitable for magnetometer calibration:
 * Power up the microcontroller/USFS and open the Arduino serial monitor
-* Monitor the the "Algorithm Status" field. It should initially be "0", which means the SpacePoint algorithm has insufficient data to determine the quality/stability of its current state
+* Monitor the "Algorithm Status" field. It should initially be "0", which means the SpacePoint algorithm has insufficient data to determine the quality/stability of its current state
 * Rotate the USFS throughout 3-space as described above. You should see the "Algorithm Status" field toggle to "8". This means the SpacePoint algorithm has achieved "Stable calibration"
 * As an initial check, hold the USFS level and right side up. Note the value of Z magnetometer (mz). Now hold the USFS level and upside down. The value of mz should be within a few uT of the right side up value and of opposite sign. If this is not true, continue randomly rotating the USFS in 3D until you see the best agreement of |mz| in the right side up and upside-down conditions
 * When the SpacePoint algorithm is in the process of final adjustment, the indicated heading can slowly evolve even though the USFS is stationary. Hold the USFS level, right side up and at a stable heading. Observe the heading ("Yaw") value for a minute or so. If it is stable, the magnetometer is complete. If the heading is slowly drifting, allow it to relax until it becomes stable
@@ -135,14 +135,14 @@ The sketches in this repository have a certain degree of feature adjustability t
 
 ### Sensor Scales
 * ACC_SCALE: +/-2g - +/-16. +/-8g is typical. +/-16g is appropriate for UAV's
-* GYRO_SCALE: For Invensense sensorsthe range is +/-250 - +/-2000DPS while for ST sensors the range is +/-125 - +/-2000DPS. +/-2000DPS is typical and is also appropriate for UAV's
+* GYRO_SCALE: For Invensense sensors the range is +/-250 - +/-2000DPS while for ST sensors the range is +/-125 - +/-2000DPS. +/-2000DPS is typical and is also appropriate for UAV's
 * MAG_SCALE: The magnetometer scales are not variable but differ between the two sensor sets. For Invensense it is +/-1000uT while for ST it is +/-4915uT
 
 ### Low-Pass Filter (LPF) Settings
-The low-pass filters remove high-frequency noise from the the sensor data streams going into the Sentral but also induce sensor phase delay. This tradeoff between noise suppression and phase delay is typically done by trial-and-error. The Invense sensor set only offers LPF's for the accelerometers and gyroscopes. The ST sensor set offers these plus LPF's for the magmnetometers and barometric pressure sensor. The entries in the LPF cutoff frequency pick lists range from least aggressive to most aggressive.
+The low-pass filters remove high-frequency noise from the sensor data streams going into the Sentral but also induce sensor phase delay. This tradeoff between noise suppression and phase delay is typically done by trial-and-error. The Invensense sensor set only offers LPF's for the accelerometers and gyroscopes. The ST sensor set offers these plus LPF's for the magnetometers and barometric pressure sensor. The entries in the LPF cutoff frequency pick lists range from least aggressive to most aggressive.
 
 ### Sentral Calibration Management
-
+As described in an earlier section, the stored accelerometer calibration and Warm Start parametric data is tested for validity when it is retrieved from the EEPROM and before it is loaded into the EM7180. However, in some instances the user may wish to suppress loading of the accelerometer calibration and/or Warm Start parameters. The "ACCEL_CAL" and "SENTRAL_WARM_START" definitions are used to activate or deactivate automatic loading of valid calibration data. By default, they are defined as "1" to activate calibration data loading. Either or both can be defined as "0" to suppress calibration data loading.
 
 ### Magnetic Declination
-
+Finally, to provide accurate heading the [magnetic declination](https://en.wikipedia.org/wiki/Magnetic_declination) for your location needs to be defined. Simply [look up](http://www.magnetic-declination.com/) your magnetic declination and define "MAG_DECLINIATION" as a floating point constant in decimal degrees.
