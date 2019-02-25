@@ -28,8 +28,9 @@ It would be rather impractical to "teach" the SpacePoint algorithm (by rotating 
 Gyroscope calibration is by far the simplest as it requires no effort on the part of the user. The Sentral does not attempt to correct for gyroscope scale errors but it does automatically correct zero-motion biases. The algorithm assesses when the USFS is not moving and uses the "At rest" data to predict and correct the individual gyroscope bias estimates Examination of the angular velocities reported while the USFS is at rest shows the bias auto-correction method works very well.
 
 ## Software Feature Overview
-The code in this repository consists of Arduino USFS operation/calibration example sketches for two popular types of general purpose microcontrollers:
+The code in this repository consists of Arduino USFS operation/calibration example sketches for three popular types of general purpose microcontrollers:
 * Tlera ["Dragonfly"](https://www.tindie.com/products/TleraCorp/dragonfly-stm32l47696-development-board/) and ["Butterfly"](https://www.tindie.com/products/TleraCorp/butterfly-stm32l433-development-board/) [Arduino-programmable](https://github.com/GrumpyOldPizza/arduino-STM32L4) STM32L4 development boards
+* [Tlera ESP32](https://www.tindie.com/products/onehorse/smallest-esp32-development-board/) [Arduino-programmable](https://github.com/espressif/arduino-esp32) development board
 * [Teensy 3.X](https://www.pjrc.com/teensy/) family of [Arduino-programmable](https://www.pjrc.com/teensy/td_download.html) development boards
 
 There are both Invensense and ST specific USFS examples for each type of microcontroller. All of the sketches are intended to be as similar to each other as possible. Any differences are necessitated by feature differences of the sensors and microcontrollers. Important features include:
@@ -45,7 +46,7 @@ There are both Invensense and ST specific USFS examples for each type of microco
 
 ## Software Operation and Calibration Instructions
 ### Basic Operation and Screen Messaging
-* Select the appropriate sketch for your microcontroller development board (STM432L4 or Teensy 3.x) and USFS board (Invensense or ST sensors). **A word to the wise: Running an ST USFS with an Invensense sketch (or the other way around) WILL NOT WORK**. *Either the sketch will hang or the AHRS data will be nonsense*
+* Select the appropriate sketch for your microcontroller development board (STM432L4, ESP32 or Teensy 3.x) and USFS board (Invensense or ST sensors). **A word to the wise: Running an ST USFS with an Invensense sketch (or the other way around) WILL NOT WORK**. *Either the sketch will hang or the AHRS data will be nonsense*
 * Follow the hardware-specific interconnection instructions in the "Readme.md" file for the specific sketch you have chosen.
 Build/upload the sketch from the [Arduino IDE](https://www.arduino.cc/en/main/software). Power-cycle the board and open the Arduino serial monitor (or any terminal emulator you prefer)
 * You should see a startup sequence on the Arduino serial monitor similar to fht following screen capture:
@@ -122,7 +123,7 @@ Once the accelerometers have been calibrated and you have verified that the USFS
 The sketches in this repository have a certain degree of feature adjustability that is set by parameter definitions in the "config.h" header file. In general, these parameter definitions should only be adjusted with care. This section will describe the adjustable performance features and offer some guidance for their adjustment. Wherever possible, there is a "pick list" of supported options for each parameter category. UNCOMMENT ONE OPTION PER LIST ONLY. The specific entries in each pick list reflect the allowed parameter values for the individual sensors.
 
 ### I2C Bus and Basic Pin Assignments
-* SENSOR_0_WIRE_INSTANCE: This definition specifies which of the microcontroller's available I2C busses will be used for the USFS. For the STM32L4 development boards, there are several possibilities. For the Teensy 3.X only the primary I2C bus is listed and there are supplementary definitions for the pin choices
+* SENSOR_0_WIRE_INSTANCE: This definition specifies which of the microcontroller's available I2C busses will be used for the USFS. For the STM32L4 and ESP32 development boards, there are several possibilities. For the Teensy 3.X only the primary I2C bus is listed. There are supplementary definitions for the I2C SCL and SDA pin specifications, if necessary.
 * LED_PIN: Defines the GPIO pin for the on-board indicator LED. Refer to your microcontroller documentation for any alternative choices
 * INT_PIN: Specifies the Sentral data-ready-interrupt GPIO pin. Any GPIO capable of supporting an external interrupt can be used
 * UPDATE_PERIOD: Defines the serial monitor update period in milliseconds. The default is 100ms or 10Hz
