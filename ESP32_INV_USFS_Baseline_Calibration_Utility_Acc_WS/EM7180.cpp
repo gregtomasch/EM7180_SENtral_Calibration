@@ -205,7 +205,6 @@ void EM7180::initSensors()
   #endif
 
   // Start the Sentral
-  //I2C->writeByte(EM7180_ADDRESS, EM7180_HostControl, 0x01);
   I2C->writeByte(EM7180_ADDRESS, EM7180_AlgorithmControl, 0x00);
   #ifdef SERIAL_DEBUG
     Serial.print("Done. Loading algorithm tuning parameters...");
@@ -289,12 +288,14 @@ void EM7180::float_to_bytes (float param_val, uint8_t *buf)
   } u;
   
   u.f = param_val;
-  for (uint8_t i=0; i < sizeof(float); i++) {
+  for (uint8_t i=0; i < sizeof(float); i++)
+  {
     buf[i] = u.comp[i];
   }
   
-  //Convert to LITTLE ENDIAN
-  for (uint8_t i=0; i < sizeof(float); i++) {
+  // Convert to LITTLE ENDIAN
+  for (uint8_t i=0; i < sizeof(float); i++)
+  {
     buf[i] = buf[(sizeof(float)-1) - i];
   }
 }
